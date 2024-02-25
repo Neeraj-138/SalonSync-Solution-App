@@ -1,5 +1,5 @@
 import mysql from 'mysql';
-
+// import 'dotenv.config'
 const conn= mysql.createConnection(
     {
         host:"localhost",
@@ -17,4 +17,4 @@ conn.connect((err)=>
         console.log("Database  Connected successfully")
     }
 })
-module.exports =conn;
+export default conn;
