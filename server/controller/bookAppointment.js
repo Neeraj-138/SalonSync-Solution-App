@@ -1,12 +1,14 @@
 import conn from "../utils/db.js"
 
 const bookAppointment=async(req,res)=>{
-    console.log("Hello",req.body)
+    // console.log("Hello",req.body)
+
     conn.query("SELECT ID FROM Customers WHERE UserID=?",[req.body.userId], (err, rows, fields) => {
         const CustomerID = rows[0].ID;
             conn.query("INSERT INTO `saloon`.`appointments` (`CustomerID`,`BranchID`,`Date`,`Status`,`SlotTime`)VALUES(?,?,?,'Booked',?)",[CustomerID,req.body.branchId,req.body.date,req.body.slot],(err,rows,fields)=>{
                 if(!err){
-                    // console.log("Rows",rows)
+                    // console.log("Rows",rows)..
+
                     if(Array.isArray(req.body.services)){
                         req.body.services.forEach(element => {
                             console.log("Services into database ",element)

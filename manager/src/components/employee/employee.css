@@ -1,0 +1,45 @@
+.brContainer{
+    background-color: white;
+    color: black;
+}
+.brWrapper{
+    display: flex;   
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+.addBranch {
+    width: 99%;
+    background-color: rgb(247, 247, 247);
+    padding: 6px;
+    color: white;
+    display: flex;
+    margin-left: 0px;
+}
+.linkB{
+    text-decoration: none;
+    padding: 5px;
+    margin: 2px;
+    color: white;
+    background-color: green;
+    list-style: none;
+    
+}
+.table{
+    color: black;
+}
+.edit{
+    background-color: rgb(28, 115, 238);
+    border: none;
+    margin: 3px;
+    color: white;
+    padding: 4px;
+}
+.danger{
+    margin: 3px;
+    color: white;
+    padding: 4px;
+    background-color: red;
+    border: none;
+}

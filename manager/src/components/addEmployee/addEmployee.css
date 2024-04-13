@@ -1,0 +1,19 @@
+.addBranchContainer{
+    height: 100vh;
+    background-color: azure;
+    /* align-items: center; */
+}
+.addbranchWrapper 
+{   width: 70%;
+    height: 80vh;
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+form{
+    background-color: yellow;
+    display: flex;
+    flex-direction: column;
+}

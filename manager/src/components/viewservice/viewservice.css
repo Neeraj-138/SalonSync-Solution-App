@@ -1,0 +1,28 @@
+.addContainer{
+    color: white;
+}
+.table{
+    color: white;
+}
+.addwrapper{
+    display: flex;   
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+.linkS{
+    text-decoration: none;
+    padding: 3px;
+    margin: 2px;
+    border: none;
+    color: white;
+    background-color: rgb(46, 173, 247);
+    list-style: none;
+    
+}
+.linkser{
+    list-style: none;
+    text-decoration: none;
+    color: white;
+}

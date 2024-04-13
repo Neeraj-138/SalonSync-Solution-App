@@ -1,0 +1,46 @@
+.nlcontainer{
+    width: 100%;
+    height: 10vh;
+    background-color: rgb(29, 30, 29);
+    display: flex;
+    justify-content: center;
+
+}
+.nav{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    padding: 5px;
+   
+
+}
+.logo{
+    margin: 0rem 2rem;
+    color: #CFCFCF;
+    font-family: system-ui, '-apple-system', 'Ubuntu',;
+}
+.loginContent{
+    display: flex;
+    gap: 10px;
+    height: 25px;
+    align-items: center;
+    justify-content: space-between;
+}
+.loginContent p{
+    color: red;
+
+    font-size: 20px;
+    /* color: rgb(255, 255, 255); */
+}
+.loginContent button{
+    background-color: red;
+    color: white;
+    border: none;
+    height: 30px;
+    padding: 7px;
+    cursor: pointer;
+    border-radius: 1px;
+    font-size: 16px;
+}

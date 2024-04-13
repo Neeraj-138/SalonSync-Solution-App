@@ -32,11 +32,14 @@ const register=async(req,res)=>{
                 
                 if(!err)
                 {
-                    conn.query("INSERT INTO customers(`FirstName`,`LastName`,`Email`,`Phone`,`Address`)VALUES(?,?,?,?,?)",
-                    [FirstName,LastName,Email,Phone,Address],(err,result)=>{
+                conn.query("SELECT UserID FROM users WHERE Email=?", [Email],(err,result)=>{
+                    const UserID=result[0].UserID
+                    conn.query("INSERT INTO customers(`UserID`,`FirstName`,`LastName`,`Email`,`Phone`,`Address`)VALUES(?,?,?,?,?,?)",
+                    [UserID,FirstName,LastName,Email,Phone,Address],(err,result)=>{
                         if(err) return res.json({RegisterStatus:false,Error:"Query Error while inserting  data into customer"})
                         return res.json({RegisterStatus:true,Message:"Registered Successfully"})
                     })
+                });
                 }else{
                     console.log(err);
                 }
@@ -48,69 +51,61 @@ const register=async(req,res)=>{
     }) 
 }
 
-
-const login=async(req,res)=>{
-        console.log('req from the body',req.body)
-        try {
-            const { Email,Password} = req.body;
-            if(!Email||!Password)
-            {
-                return res.json({
-                    loginStatus:false,
-                    Message:"Please fill all fields"
-                })
-            }
-            let user={};
-                 conn.query("SELECT * FROM users WHERE Email=?",[Email], async(err,rows)=>{
-                if(err) return res.json({LogInStatus:false,Message:"Query Error"})
-                console.log("result from backend",rows);
-            
-                const validPass =await bcrypt.compare(req.body.Password, rows[0].Password);
-                console.log(validPass);
-                if(!validPass){
-                    return res.json({loginStatus:false,Message:"Not Valid password"})
-                }
-                const payload={
-                    Email:rows[0].Email,
-                    Id:rows[0].UserId,
-                    Roll:rows[0].Type
-                }
-                if(rows.length>0)
-                {   
-                    const token=jwt.sign({payload},"jwt_secret_key",{expiresIn:"1m"},);
-                    // console.log("token",token);
-                    // res.cookie('token',token);
-                    user=rows[0];
-                    user.token=token;
-
-                     res.cookie("token",token,{maxAge:3600}).json({
-                        loginStatus:true,
-                        token,
-                        user,
-                        Message:"User logged in successfully"
-                    })
-                    // return res.json({loginStatus:true,data:rows[0]})
-                    
-                }
-                else{
-                    return res.json({loginStatus:false,Error:"Wrong email or password"})
-                }
-            })
-        } catch (error) {
-            res.json({
-                loginStatus:false,
-                Eror:"Wrong credentials"
-            })
-            
+const login = async (req, res) => {
+    console.log('req from the body', req.body);
+    try {
+        const { Email, Password } = req.body;
+        if (!Email || !Password) {
+            return res.json({
+                loginStatus: false,
+                Message: "Please fill all fields"
+            });
         }
-        // console.log(req.body);
-        
-       
- }
+        let user = {};
+        conn.query("SELECT * FROM users WHERE Email=?", [Email], async (err, rows) => {
+            if (err) return res.json({ LogInStatus: false, Message: "Query Error" });
+            console.log("result from backend", rows);
+
+            const validPass = await bcrypt.compare(req.body.Password, rows[0].Password);
+            console.log(validPass);
+            if (!validPass) {
+                return res.json({ loginStatus: false, Message: "Not Valid password" });
+            }
+            const payload = {
+                Email: rows[0].Email,
+                Id: rows[0].UserId,
+                Roll: rows[0].Type
+            };
+            user = rows[0];     
+
+            if (rows.length > 0) {
+                const token = jwt.sign( payload , "jwt_secret_key", {expiresIn: '1h'});
+                
+                // res.cookie('mytoken',token, {expires:new Date(Date.now()+3*24*60*60*1000), path: '/', httpOnly: true, sameSite: 'None' })
+                // console.log(token);
+
+                res.setHeader('Authorization',`Bearer ${token}`); 
+                // console.log(req.headers.Authorization);
+                return res.json({
+                    loginStatus: true,
+                    token,
+                    Message: "User logged in successfully",
+                    user:rows[0],
+                });
+            } else {
+                return res.json({ loginStatus: false, Error: "Wrong email or password" });
+            }
+        });
+    } catch (error) {
+        res.json({
+            loginStatus: false,
+            Error: "Wrong credentials"
+        });
+    }
+};
 const logout=(req,res)=>{
-    // res.clearCookie('token');
-    // return res.json({LogoutStatus:true ,Message:"Logout Successfully"})
-    res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'None' });
+    res.clearCookie('token');
+
     return res.json({ LogoutStatus: true, Message: "Logout Successfully" });
 }
 

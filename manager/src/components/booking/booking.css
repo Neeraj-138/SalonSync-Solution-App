@@ -1,0 +1,78 @@
+.homeContainer{
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    background-color: rgb(255, 255, 255);
+   }
+   .homewrapper{
+       background-color: rgb(244, 244, 244);
+       display: flex;
+       /* border: 1px solid white; */
+       width: 100%;
+       flex-direction: column;
+       max-width: 1000px;
+   }
+   .highlight{
+       display: flex; 
+       max-width: 1000px;
+   
+   }
+   .highlightcard{
+       /* background-color: red; */
+       margin: 1px 30px;
+       height: 100px;
+       /* border: 1px solid white; */
+       width: 480px;
+       
+       border-radius: 10px;
+       padding: 0px;
+   }
+   .cardItem{
+       border-radius: 10px;
+       height: 100px;
+       background-color: rgb(0, 0, 0);
+   }
+   p{
+       font-size: 19px;
+       padding: 10px;
+       margin: 0px;
+       color: white;
+     
+   }
+   .appointment{
+       color: rgb(12, 12, 12);
+       border-radius: 10px;
+       margin: 6px;
+       border: 1px solid white;
+       background-color: rgb(255, 255, 255);
+   
+       
+   }
+   .dash{
+       background-color: rgb(83, 83, 83);
+       margin: 10px 1px;
+       display: flex;
+   }
+   .book{
+       background-color: rgb(32, 201, 248);
+   }
+   .cancel{
+       background-color: red;
+   }
+   .complete{
+       background-color: green;
+   }
+   .revenue{
+       background-color: purple;
+   }
+   .barchart{
+       display: grid;
+       grid-template-columns: 1fr 1fr;;
+       height: 300px;
+       background-color: rgb(255, 255, 255);
+       width: 1000px;
+   }
+   nav{
+    display: flex;
+    justify-content: center;
+   }
