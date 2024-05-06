@@ -64,37 +64,42 @@ const login = async (req, res) => {
         let user = {};
         conn.query("SELECT * FROM users WHERE Email=?", [Email], async (err, rows) => {
             if (err) return res.json({ LogInStatus: false, Message: "Query Error" });
-            console.log("result from backend", rows);
+            console.log("result from backend from logintable", rows);
 
             const validPass = await bcrypt.compare(req.body.Password, rows[0].Password);
             console.log(validPass);
             if (!validPass) {
                 return res.json({ loginStatus: false, Message: "Not Valid password" });
             }
+          
             const payload = {
                 Email: rows[0].Email,
                 Id: rows[0].UserId,
                 Roll: rows[0].Type
             };
-            user = rows[0];     
-
-            if (rows.length > 0) {
-                const token = jwt.sign( payload , "jwt_secret_key", {expiresIn: '1h'});
-                
-                // res.cookie('mytoken',token, {expires:new Date(Date.now()+3*24*60*60*1000), path: '/', httpOnly: true, sameSite: 'None' })
-                // console.log(token);
-
-                res.setHeader('Authorization',`Bearer ${token}`); 
-                // console.log(req.headers.Authorization);
-                return res.json({
-                    loginStatus: true,
-                    token,
-                    Message: "User logged in successfully",
-                    user:rows[0],
-                });
-            } else {
-                return res.json({ loginStatus: false, Error: "Wrong email or password" });
-            }
+            user = rows[0];
+            conn.query("select * from customers where UserID=?",[rows[0].UserID],(err,rows)=>{
+                console.log("from customer & user",rows[0],user)
+                // user=rows[0];
+                console.log("current user",user)
+                if (rows.length > 0)
+                {
+                    const token = jwt.sign( payload , "jwt_secret_key", {expiresIn: '1h'});    
+                    res.cookie('mytoken',token, {expires:new Date(Date.now()+3*24*60*60*1000), path: '/', httpOnly: true, sameSite: 'None' })
+                    console.log(token);
+                    res.setHeader('Authorization',`Bearer ${token}`); 
+                    // console.log(req.headers.Authorization);
+                    return res.json({
+                        loginStatus: true,
+                        token,
+                        Message: "User logged in successfully",
+                        user:user,
+                        customer:rows[0]
+                    });
+                } else {
+                    return res.json({ loginStatus: false, Error: "Wrong email or password" });
+                }
+            })    
         });
     } catch (error) {
         res.json({
@@ -104,7 +109,8 @@ const login = async (req, res) => {
     }
 };
 const logout=(req,res)=>{
-    res.clearCookie('token');
+    console.log("pressing logout")
+     res.clearCookie("mytoken");
 
     return res.json({ LogoutStatus: true, Message: "Logout Successfully" });
 }

@@ -2,8 +2,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 
+import "react-toastify/dist/ReactToastify.css";
+
+import { ToastContainer, toast } from "react-toastify";
 function RequestEmployee() {
     const [employee,setEmployee]=useState([]);
+    const[key,setKey]=useState(0);
     useEffect(()=>{
         axios.get("http://localhost:7000/api/admin/requestemployee")    
         .then( res=>{
@@ -15,7 +19,7 @@ function RequestEmployee() {
         )
     
     
-    },[])
+    },[key])
 
   const handleAccept=(ID)=>{
     console.log("employee",ID)
@@ -24,7 +28,10 @@ function RequestEmployee() {
       res=>{
         if(res.data.Status)
         {
+          toast.success(res.data.Message)
+          setKey(prevKey=>prevKey+1)
           console.log(res.data.Message);
+          
         }
       }
      )
@@ -91,7 +98,7 @@ function RequestEmployee() {
 
                               <td>
                                 <button className='edit link'><Link className='linkser'onClick={()=>handleAccept(e.ID)} >Accept</Link></button>
-                                <button className='danger' onClick={()=>handleReject(e.ID)} >Reject</button>
+                                {/* <button className='danger' onClick={()=>handleReject(e.ID)} >Reject</button> */}
                               </td>
                           </tr>
 
@@ -103,7 +110,7 @@ function RequestEmployee() {
       </table>
 
     </div>
-  
+    <ToastContainer/>
   </div>
   )
 }

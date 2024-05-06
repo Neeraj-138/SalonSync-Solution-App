@@ -1,6 +1,10 @@
 import axios from 'axios';
 import {React,  useState } from 'react'
 import {useNavigate} from 'react-router-dom'
+
+import "react-toastify/dist/ReactToastify.css";
+
+import { ToastContainer, toast } from "react-toastify";
 import './addbrach.css'
 function AddBranch() {
     const navigate=useNavigate()
@@ -11,15 +15,20 @@ function AddBranch() {
         city:"",
         district:"",
         state:"",
-        pincode:""
+        pincode:"",
+        location:""
     })
-    const handleAddBranch=()=>{
+    const handleAddBranch=(e)=>{
+        e.preventDefault();
         console.log("Branch",branch);
 
         axios.post("http://localhost:7000/api/branch/branch",branch)
         .then(res=>{
             if(res.data.Status)
             {
+                setTimeout(() => {
+                    toast.success("Updated successfully")      
+                    }, 500);
                 navigate('/dashboard/branch')
             }
             console.log(res.data.result)
@@ -42,10 +51,12 @@ function AddBranch() {
                 <input type='text' onChange={(e)=>{setBranch({...branch,district:e.target.value})}}  placeholder='District'/>
                 <input type='text' onChange={(e)=>{setBranch({...branch,state:e.target.value})}}  placeholder='State'/>
                 <input type='text' onChange={(e)=>{setBranch({...branch,pincode:e.target.value})}}  placeholder='Pincode'/>
+                <input type='text' onChange={(e)=>{setBranch({...branch,location:e.target.value})}}  placeholder='Enter Branch Loction Link'/>
                 <button onClick={handleAddBranch}>Add Branch</button>
             </form>
 
         </div>
+        <ToastContainer/>
     </div>
   )
 }

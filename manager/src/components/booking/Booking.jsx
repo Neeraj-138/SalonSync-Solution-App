@@ -7,17 +7,40 @@ import axios from 'axios';
 function Booking() {
 
   
+    const [selectedDate, setSelectedDate] = useState('');
 
     const [allBookedAppointment,setAllBookedAppointment]=useState([]);
-    useEffect(()=>{
-        axios.get("http://localhost:7000/api/admin/allbookedappointment")
-        .then(res=>{
-            console.log(res.data.result);
-            setAllBookedAppointment(res.data.result);
+    useEffect(() => {
+        if (selectedDate !== '') {
+            axios.get(`http://localhost:7000/api/admin/allbookedappointmentbydate?date=${selectedDate}`)
+                .then(res => {
+                    console.log("AllAppointment byDATE", res.data.result);
+                    setAllBookedAppointment(res.data.result);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else {
+            axios.get("http://localhost:7000/api/admin/allbookedappointment")
+                .then(res => {
+                    console.log("AllAppointment", res.data.result);
+                    setAllBookedAppointment(res.data.result);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+    }, [selectedDate]);
 
-        })
-        .catch(err=>{console.log(err)})
-    },[])
+    // useEffect(()=>{
+    //     axios.get("http://localhost:7000/api/admin/allbookedappointment")
+    //     .then(res=>{
+    //         console.log("AllAppointment",res.data.result);
+    //         setAllBookedAppointment(res.data.result);
+
+    //     })
+    //     .catch(err=>{console.log(err)})
+    // },[])
 
     
 const [currentPage,setCurrentPage]=useState(1)
@@ -42,6 +65,17 @@ const nextPage=()=>{
 const changeCPage=(id)=>{
     setCurrentPage(id);
 }
+const handleDateChange = (e) => {
+    // setSelectedDate(formatDate(e.target.value));
+    // setSelectedDate(formattedDate);
+    const formattedDate = formatDate(e.target.value);
+    setSelectedDate(formattedDate);
+}
+console.log("choosenDate",selectedDate)
+const formatDate = (date) => {
+    const options = { month: 'short', day: '2-digit', year: 'numeric' };
+    return new Date(date).toLocaleDateString('en-US', options);
+};
 
     return (
     <div className='homeContainer'>
@@ -50,6 +84,8 @@ const changeCPage=(id)=>{
             <div className='dash'>
                 <p>All Appointment</p>
             </div>
+            <input type='date' value={selectedDate} onChange={handleDateChange} />
+                <h2>{selectedDate}</h2>
             <div>
                 <div className='appointment'>
                 <table border="1">
@@ -74,7 +110,7 @@ const changeCPage=(id)=>{
                             <td>{appointment.FirstName}</td>
                             <td>{appointment.LastName}</td>
                             <td>{appointment.Branch_Name}</td>
-                            <td>{appointment.Cities}</td>
+                            <td>{appointment.City}</td>
                             <td>{appointment.Date}</td>
                             <td>{appointment.slotTime}</td>
                             <td>{appointment.Status}</td>

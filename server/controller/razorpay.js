@@ -59,13 +59,15 @@ const paymentVerification = (req, res) => {
                           conn.query("INSERT INTO AppointmentServices (AppointmentID, ServiceID) VALUES(?,?)", [rows.insertId, bookingDatas.services.sId], (err,rows, fields)=>{})
                       }
                       // conn.query("select sum(ser.Price) as TotalPrice from appointmentservices as apSer join services as ser on apSer.ServiceID=ser.sId where AppointmentID=?",[rows.insertId],(err,serAmount,fields)=>{
-                          conn.query("INSERT INTO payments(AppointmentID,Amount)values(?,?)",[rows.insertId,bookingDatas.totalAmount],(err,ser,fields)=>{
+                          conn.query("INSERT INTO payments(AppointmentID,Amount,PaymentMode)values(?,?,?)",[rows.insertId,bookingDatas.totalAmount,bookingDatas.paymentMode],(err,ser,fields)=>{
                               if(err){
                                   console.log(err);
+                              }
+                              else{
+                                res.redirect(`http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`)
                               }   
                           })
                       // })
-                    res.redirect(`http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`)
 
                   }
                   else{
@@ -77,7 +79,8 @@ const paymentVerification = (req, res) => {
 
 
         )
-       } else {
+       } 
+    else {
       // console.log("verification",req.body)
       return res.json({ Status: false });
     }

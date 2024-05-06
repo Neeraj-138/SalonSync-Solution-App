@@ -57,7 +57,7 @@ p{
     background-color: rgb(32, 201, 248);
 }
 .cancel{
-    background-color: red;
+    background-color: rgb(77, 255, 0);
 }
 .complete{
     background-color: green;
@@ -67,7 +67,7 @@ p{
 }
 .barchart{
     display: grid;
-    grid-template-columns: 1fr 1fr;;
+    grid-template-columns: 1fr;
     height: 300px;
     background-color: rgb(255, 255, 255);
     width: 1000px;

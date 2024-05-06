@@ -18,6 +18,11 @@ import Employee from './components/employee/Employee';
 import RequestEmployee from './components/requestEmployee/RequestEmployee';
 import AddEmployee from './components/addEmployee/AddEmployee';
 import UpdateEmployee from './components/updateEmployee/UpdateEmployee';
+// import AddReviews from './components/addReviews/AddReviews';
+import Reviews from './components/review/Reviews';
+import AddReviews from './components/addReviews/AddReviews';
+import UpdateReviews from './components/updateReviews/UpdateReviews';
+import Contact from './components/contact/Contact';
 function App() {
   return (
     <div className="App">
@@ -32,8 +37,12 @@ function App() {
             <Route path='/dashboard/branch' element={<Branch/>} />
             <Route path='/dashboard/addBranch' element={<AddBranch/>} />
             <Route path='/dashboard/updateBranch/:id' element={<UpdateBranch/>} />
+            <Route path='/dashboard/reviews' element={<Reviews/>} />
+            <Route path='/dashboard/addreviews' element={<AddReviews/>} />
+            <Route path='/dashboard/updatereviews/:id' element={<UpdateReviews/>} />
             <Route path='/dashboard/customer' element={<Customer/>} />
             <Route path='/dashboard/employee' element={<Employee/>} />
+            <Route path='/dashboard/contact' element={<Contact/>} />
             <Route path='/dashboard/addEmployee' element={<AddEmployee/>} />
             <Route path='/dashboard/updateEmployee/:id' element={<UpdateEmployee/>} />
             <Route path='/dashboard/requestemployee' element={<RequestEmployee/>} />

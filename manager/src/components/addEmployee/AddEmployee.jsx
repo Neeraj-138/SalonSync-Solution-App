@@ -29,7 +29,8 @@ function UpdateService() {
     },[])
     console.log("getting",service);
 
-    const handleUpadate=()=>{
+    const handleUpadate=(e)=>{
+        e.preventDefault()
         console.log("TO update")
         axios.put(`http://localhost:7000/api/service/updateService/${id}`,service)
         .catch(res=>{
@@ -65,7 +66,7 @@ function UpdateService() {
         value={service.Price}
             onChange={(e)=>{setService({...service,Price:e.target.value})}} 
         />
-     <button onClick={()=>handleUpadate()} >Update</button>
+     <button onClick={(e)=>handleUpadate(e)} >Update</button>
       </form>
 
     </div>

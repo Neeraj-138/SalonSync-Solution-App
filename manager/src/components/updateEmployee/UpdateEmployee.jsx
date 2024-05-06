@@ -2,10 +2,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import "react-toastify/dist/ReactToastify.css";
+
+import { ToastContainer, toast } from "react-toastify";
+
 function UpdateEmployee() {
   const {id}=useParams();
   console.log("id",id);
-  const[updateBranch,setUpdateBranch]=useState({
+  const[updateEmployee,setUpdateEmployee]=useState({
     eId:"",
     brId:"",
     FirstName:"",
@@ -15,40 +19,38 @@ function UpdateEmployee() {
     Verified:"",
  
 })
-const [employee,setEmployee]=useState([]);
+// const [employee,setEmployee]=useState([]);
   useEffect(()=>{
     axios.get(`http://localhost:7000/api/admin/employee/${id}`)
     .then(res=>{
         console.log("Employee",res.data.result);
-        setEmployee(res.data.result)
-        setUpdateBranch({
-            eId:res.data.res,
-            brId:"",
-            FirstName:"",
-            LastName:"",
-            Phone:"",
-            Email:"",
-            Verified:"",
-        // id:res.data.result[0].bId,
-        // name:res.data.result[0].Name,
-        // street:res.data.result[0].Street,
-        // city:res.data.result[0].City,
-        // district:res.data.result[0].District,
-        // state:res.data.result[0].State,
-        // pincode:res.data.result[0].PinCode,
-      })        
+        // setEmployee(res.data.result)
+        setUpdateEmployee({
+          eId: res.data.result.ID,
+          brId: res.data.result.BranchID,
+          FirstName: res.data.result.FirstName,
+          LastName: res.data.result.LastName,
+          Phone: res.data.result.Phone,
+          Email: res.data.result.Email,
+          Verified: res.data.result.Verified
+        });
+                
     })
-    .catch(err=>{console.log(err)})
-  },[id])
+    .catch(err=>{
+      console.log(err)
+    })
+  },[])
+  // console.log("deltails",employee)
   const navigate=useNavigate();
- const handleUpdateBranch=()=>{
+ const handleUpdateEmpoyee=(e)=>{
+  e.preventDefault()
+  console.log("toUptade",updateEmployee);
   
-  // console.log(updateBranch);
-  
-  axios.put(`http://localhost:7000/api/admin/updateemployee/${updateBranch.id}`,updateBranch)
+  axios.put(`http://localhost:7000/api/admin/updateemployee/${id}`,updateEmployee)
   .then(res=>{
     if(res.data.Status)
     {
+      toast.success("Updated Successfully")
       navigate('/dashboard/branch')
     }
     // console.log(res)
@@ -56,9 +58,8 @@ const [employee,setEmployee]=useState([]);
   .catch(err=>console.log(err))
 
 
-
-
  }
+
   return (
     <div className='updateContainer'>
          <div className='dash'>
@@ -66,16 +67,38 @@ const [employee,setEmployee]=useState([]);
         </div>
         <div className='updateWrapper'>
         <form>
-                <input type='number' value={updateBranch.id} onChange={(e)=>{setUpdateBranch({...updateBranch,id:e.target.value})}} placeholder='Branch Id'/>
-                <input type='text' value={updateBranch.name} onChange={(e)=>{setUpdateBranch({...updateBranch,name:e.target.value})}} placeholder='Branch Name'/>
-                <input type='text' value={updateBranch.street} onChange={(e)=>{setUpdateBranch({...updateBranch,street:e.target.value})}} placeholder='Street Name'/>
-                <input type='text' value={updateBranch.city} onChange={(e)=>{setUpdateBranch({...updateBranch,city:e.target.value})}} placeholder='City Name'/>
-                <input type='text' value={updateBranch.district} onChange={(e)=>{setUpdateBranch({...updateBranch,district:e.target.value})}}  placeholder='District'/>
-                <input type='text' value={updateBranch.state} onChange={(e)=>{setUpdateBranch({...updateBranch,state:e.target.value})}}  placeholder='State'/>
-                <input type='text' value={updateBranch.pincode} onChange={(e)=>{setUpdateBranch({...updateBranch,pincode:e.target.value})}}  placeholder='Pincode'/>
-                <button onClick={handleUpdateBranch}>Update Employee</button>
+                <input type='number'
+                 value={updateEmployee.eId}
+                  onChange={(e)=>{setUpdateEmployee({...updateEmployee,eId:e.target.value})}}
+                  placeholder='Employee Id'/>
+                <input type='text' 
+                value={updateEmployee.FirstName} 
+                onChange={(e)=>{setUpdateEmployee({...updateEmployee,FirstName:e.target.value})}}
+                 placeholder='First Name'/>
+                <input type='text'
+                 value={updateEmployee.LastName}
+                 onChange={(e)=>{setUpdateEmployee({...updateEmployee,LastName:e.target.value})}} 
+                 placeholder='Last Name'/>
+                <input type='text'
+                 value={updateEmployee.Email} 
+                 onChange={(e)=>{setUpdateEmployee({...updateEmployee,Email:e.target.value})}}
+                  placeholder='Email'/>
+                <input type='text'
+                 value={updateEmployee.Phone}
+                  onChange={(e)=>{setUpdateEmployee({...updateEmployee,Phone:e.target.value})}} 
+                  placeholder='Phone'/>
+                <input type='text' 
+                value={updateEmployee.brId}
+                 onChange={(e)=>{setUpdateEmployee({...updateEmployee,brId:e.target.value})}} 
+                 placeholder='BranchId'/>
+                <input type='text'
+                 value={updateEmployee.Verified}
+                  onChange={(e)=>{setUpdateEmployee({...updateEmployee,Verified:e.target.value})}} 
+                  placeholder='Verified'/>
+                <button onClick={(e)=>handleUpdateEmpoyee(e)}>Update Employee</button>
             </form>
         </div>
+ <ToastContainer/>
     </div>
   )
 }

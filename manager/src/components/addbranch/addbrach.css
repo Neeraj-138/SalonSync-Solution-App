@@ -1,19 +1,31 @@
 .addBranchContainer{
     height: 100vh;
-    background-color: azure;
+    /* background-color: rgb(72, 209, 209); */
     /* align-items: center; */
 }
 .addbranchWrapper 
-{   width: 70%;
-    height: 80vh;
-    background-color: green;
+{   width: 100%;
     display: flex;
+    padding: 10px;
     flex-direction: column;
+    /* padding-top: -200px; */
     justify-content: center;
 
 }
 form{
-    background-color: yellow;
+    /* background-color: yellow; */
     display: flex;
     flex-direction: column;
+}
+form>input{
+    height: 40px;
+
+}
+form>button{
+    background-color: red;
+    color: white;
+    border: none;
+    height: 40px;
+    font-size: 20px;
+    margin-top: 5px;
 }

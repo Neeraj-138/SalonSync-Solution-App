@@ -56,7 +56,7 @@ const[user,setUser]=useState(
     <div className='nlcontainer'>
     <div className='nav'>
         <div className='logo'>
-            <h3>BEAUTY SALOON</h3>
+            <h3>BEAUTY SALON</h3>
         </div>
         <div className='button'>
             {/* {user.user.data&&user.user.data.Email?<p style={{ color: 'red' }}>{user.user.data.Email}</p>:( */}

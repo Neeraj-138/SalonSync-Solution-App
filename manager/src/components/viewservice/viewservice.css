@@ -26,3 +26,7 @@
     text-decoration: none;
     color: white;
 }
+.imga>img{
+    width: 70px;
+    height: 70px;
+}
